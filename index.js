@@ -17,7 +17,7 @@ pool.connect();
 /* Referencia de SQL utilizado para inicializar la base de datos Postgres puede se puede encontrar en el archivo 'Database.sql' */
 
 // const provincia = [{p:'San Jose',c:['San Jose','Guadalupe']},{p:'Alajuela',c:['San Ramon','Centro']}]
-// const num_of_mock_clients = 10000
+// const num_of_mock_clients = 100000
 
 // for(let c = 0; c < num_of_mock_clients; c++){
 //     p = provincia[Math.floor(provincia.length * Math.random())]        //Provincia Aleatoria
