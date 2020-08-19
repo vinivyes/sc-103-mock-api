@@ -31,8 +31,8 @@ pool.connect();
 /* Despues de utilizar el codigo arriba una vez comentarlo otra vez para si no deseas insertar más clientes a la base de datos */
 
 //#region - Cargar y Inicializar modulos necesarios para el API
-const Redis = require("ioredis");
-const cache = new Redis();
+const redis = require("redis");
+const cache = redis.createClient();
 
 cache.on("error", function(error) {
   console.error(error);
@@ -91,17 +91,16 @@ app.get('/cache_ciudad/:ciudad', (req, res) => {
     let t = process.hrtime();
     cache.smembers(`cliente:${req.params.ciudad}`,(err,result) => {
         keys = 0;
-        let retrive_pipeline = []
+        let retrive_multiple = []
         if(result.length == 0){
             res.send("No Data");
         }
         result.forEach((k) => {
-            retrive_pipeline.push(["get",`cliente:${k}`])
+            retrive_multiple.push([`cliente:${k}`])
             keys += 1;
             if(keys == result.length){
-                cache.multi(
-                    retrive_pipeline
-                ).exec((err, result) => {
+                cache.mget(
+                    retrive_multiple, (err, result) => {
                     let t1 = process.hrtime(t);
                     res.send(`${t1[1]/1000000}`);                    
                 })
